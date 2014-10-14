@@ -17,6 +17,23 @@
 # limitations under the License.
 #
 
+case node["platform_family"]
+when "suse"
+  include_recipe "zypper"
+
+  zypper_repository node["virtualbox"]["zypper"]["alias"] do
+    uri node["virtualbox"]["zypper"]["repo"]
+    key node["virtualbox"]["zypper"]["key"]
+    title node["virtualbox"]["zypper"]["title"]
+
+    action :add
+
+    only_if do
+      node["virtualbox"]["zypper"]["enabled"]
+    end
+  end
+end
+
 node["virtualbox"]["packages"].each do |name|
   package name do
     action :install

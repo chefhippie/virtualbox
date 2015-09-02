@@ -35,5 +35,5 @@ default["virtualbox"]["group"] = "vboxusers"
 default["virtualbox"]["zypper"]["enabled"] = true
 default["virtualbox"]["zypper"]["alias"] = "virtualization"
 default["virtualbox"]["zypper"]["title"] = "Virtualization"
-default["virtualbox"]["zypper"]["repo"] = "http://download.opensuse.org/repositories/Virtualization/openSUSE_#{node["platform_version"]}/"
+default["virtualbox"]["zypper"]["repo"] = "http://download.opensuse.org/repositories/Virtualization/openSUSE_#{node["platform_version"].to_i.to_s == node["platform_version"] ? "Tumbleweed" : node["platform_version"]}/"
 default["virtualbox"]["zypper"]["key"] = "#{node["virtualbox"]["zypper"]["repo"]}repodata/repomd.xml.key"

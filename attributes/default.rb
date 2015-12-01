@@ -32,8 +32,22 @@ default["virtualbox"]["packages"] = value_for_platform_family(
 default["virtualbox"]["users"] = %w()
 default["virtualbox"]["group"] = "vboxusers"
 
-default["virtualbox"]["zypper"]["enabled"] = true
-default["virtualbox"]["zypper"]["alias"] = "virtualization"
-default["virtualbox"]["zypper"]["title"] = "Virtualization"
-default["virtualbox"]["zypper"]["repo"] = "http://download.opensuse.org/repositories/Virtualization/openSUSE_#{node["platform_version"].to_i.to_s == node["platform_version"] ? "Tumbleweed" : node["platform_version"]}/"
-default["virtualbox"]["zypper"]["key"] = "#{node["virtualbox"]["zypper"]["repo"]}repodata/repomd.xml.key"
+case node["platform_family"]
+when "suse"
+  repo = case node["platform_version"]
+  when /\A13\.\d+\z/
+    "openSUSE_#{node["platform_version"]}"
+  when /\A42\.\d+\z/
+    "openSUSE_Leap_#{node["platform_version"]}"
+  when /\A\d{8}\z/
+    "openSUSE_Tumbleweed"
+  else
+    raise "Unsupported SUSE version"
+  end
+
+  default["virtualbox"]["zypper"]["enabled"] = true
+  default["virtualbox"]["zypper"]["alias"] = "virtualization"
+  default["virtualbox"]["zypper"]["title"] = "Virtualization"
+  default["virtualbox"]["zypper"]["repo"] = "http://download.opensuse.org/repositories/Virtualization/#{repo}/"
+  default["virtualbox"]["zypper"]["key"] = "#{node["virtualbox"]["zypper"]["repo"]}repodata/repomd.xml.key"
+end

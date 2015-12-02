@@ -24,7 +24,7 @@ default["virtualbox"]["packages"] = value_for_platform_family(
   ),
   "suse" => %w(
     virtualbox
-    virtualbox-host-kmp-desktop
+    virtualbox-host-kmp-default
     virtualbox-qt
   )
 )
